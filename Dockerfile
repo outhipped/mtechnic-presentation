@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     ttf-freefont \
     font-noto-emoji
 
-# Tell puppeteer-core to skip bundled Chrome and use the Alpine one
+# Tell puppeteer to skip its 300MB bundled Chrome download — use Alpine chromium above
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
