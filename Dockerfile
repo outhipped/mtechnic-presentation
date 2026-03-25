@@ -1,19 +1,20 @@
-FROM node:20-slim
+FROM node:20-alpine
 
-# Install Chromium from Debian repos (fast, no Puppeteer download timeout)
-RUN apt-get update && apt-get install -y \
+# Alpine's chromium is ~60 MB vs Debian's ~250 MB — builds in < 1 minute
+RUN apk add --no-cache \
     chromium \
-    fonts-liberation \
-    fonts-noto-color-emoji \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    font-noto-emoji
+
+# Tell puppeteer-core to skip bundled Chrome and use the Alpine one
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 WORKDIR /app
-
-# Skip Puppeteer's bundled Chrome download — we use system Chromium above
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-
 COPY package*.json ./
 RUN npm install --omit=dev
 
