@@ -1,0 +1,14 @@
+{
+  "name": "mtechnic-presentation",
+  "version": "1.0.0",
+  "description": "mTechnic® Technical Shelters — Interactive Presentation Editor",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^21.0.0"
+  }
+}

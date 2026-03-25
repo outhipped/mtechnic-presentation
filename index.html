@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mTechnic® Technical Shelters — Moduł System 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   RESET & VARIABLES
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:       #000000;
+  --white:       #ffffff;
+  --light:       rgb(246,246,246);
+  --grey-text:   rgb(89,89,89);
+  --grey-mid:    rgb(160,160,160);
+  --grey-border: rgba(0,0,0,0.10);
+  --font:        'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+html { background: #1a1a1a; }
+body {
+  font-family: var(--font);
+  background: #1a1a1a;
+  padding: 28px 28px 28px 72px; /* left room for page-nav */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   PAGE — A4 LANDSCAPE 297×210mm
+   Each .page is a flex column:
+     .page-inner  → flex:1, holds all content
+     .page-foot   → fixed-height footer, always at bottom, NEVER overlaps
+   ============================================================ */
+.page {
+  width: 297mm;
+  height: 210mm;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+  page-break-after: always;
+  page-break-inside: avoid;
+  font-family: var(--font);
+  position: relative;
+}
+
+/* inner wrapper — fills available height above footer */
+.page-inner {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+/* row-layout pages need this override */
+.page-inner.row { flex-direction: row; }
+
+/* ============================================================
+   PAGE FOOTER — in-flow, never overlaps content
+   ============================================================ */
+.page-foot {
+  height: 7.5mm;
+  flex-shrink: 0;
+  border-top: 0.5pt solid rgba(0,0,0,0.13);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 11mm;
+}
+.page-foot .foot-domain {
+  font-size: 6.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--grey-text);
+}
+.page-foot .foot-num {
+  font-size: 7.5pt;
+  font-weight: 700;
+  color: var(--black);
+}
+/* Dark footer variant (Page 12) */
+.page-foot-dark {
+  height: 12mm;
+  flex-shrink: 0;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12mm;
+}
+.page-foot-dark .foot-copy {
+  font-size: 6pt;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.35);
+}
+.page-foot-dark .foot-web {
+  font-size: 6.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.55);
+}
+.foot-logo-svg { height: 7mm; }
+
+/* ============================================================
+   TYPOGRAPHY SYSTEM
+   ============================================================ */
+.tech-label {
+  font-size: 7.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--grey-text);
+  line-height: 1.4;
+  display: block;
+}
+.tech-label-inv {
+  font-size: 7.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+  display: block;
+}
+.tech-label-sm {
+  font-size: 6.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--grey-text);
+  display: block;
+}
+
+.h-display {
+  font-size: 58pt;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 0.91;
+  color: var(--black);
+}
+.h1 {
+  font-size: 30pt;
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  line-height: 1.0;
+  color: var(--black);
+}
+.h2 {
+  font-size: 22pt;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.06;
+  color: var(--black);
+}
+.h3 {
+  font-size: 13pt;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+  color: var(--black);
+}
+.body-text {
+  font-size: 9.5pt;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--grey-text);
+}
+.body-text-sm {
+  font-size: 8.5pt;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--grey-text);
+}
+.stat-num {
+  font-size: 66pt;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--black);
+}
+
+/* Bullets */
+.bullet-list { list-style: none; }
+.bullet-list li {
+  font-size: 9pt;
+  color: var(--grey-text);
+  line-height: 1.6;
+  padding-left: 11pt;
+  position: relative;
+}
+.bullet-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--black);
+  font-weight: 700;
+}
+
+/* Spec tag */
+.spec-tag {
+  display: inline-block;
+  font-size: 6.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 0.75pt solid var(--black);
+  padding: 2.5pt 7pt;
+  color: var(--black);
+  margin-right: 4pt;
+  margin-top: 4pt;
+}
+
+/* Section divider line */
+.divider { height: 0.5pt; background: rgba(0,0,0,0.12); }
+.divider-v { width: 0.5pt; background: rgba(0,0,0,0.12); flex-shrink: 0; }
+.divider-black { height: 1pt; background: var(--black); }
+
+/* ============================================================
+   IMAGE PLACEHOLDER
+   ============================================================ */
+.img-ph {
+  background: var(--light);
+  border: 1pt dashed rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.img-ph input[type="file"] { display: none; }
+.img-ph .ph-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5pt;
+  pointer-events: none;
+  padding: 8mm;
+  text-align: center;
+}
+.img-ph .ph-icon { width: 18pt; height: 18pt; opacity: 0.22; }
+.img-ph .ph-label {
+  font-size: 6pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: rgba(0,0,0,0.28);
+}
+.img-ph img.ph-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.swap-btn {
+  position: absolute;
+  bottom: 7pt; right: 7pt;
+  background: rgba(0,0,0,0.72);
+  color: white;
+  font-size: 6pt; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 3.5pt 8pt;
+  cursor: pointer; z-index: 5;
+  border: none; font-family: var(--font);
+  opacity: 0; transition: opacity 0.2s;
+}
+.img-ph:hover .swap-btn { opacity: 1; }
+
+/* ============================================================
+   EDITOR TOOLBAR (screen only)
+   ============================================================ */
+.toolbar {
+  position: fixed; top: 16px; right: 16px;
+  z-index: 9999; display: flex; gap: 8px; align-items: center;
+  background: #000; padding: 8px 14px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  font-family: var(--font);
+}
+.toolbar-label {
+  font-size: 8px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45);
+  padding-right: 8px;
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+.tb-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff; font-family: var(--font);
+  font-size: 8px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 5px 12px; cursor: pointer;
+  transition: background 0.15s;
+}
+.tb-btn:hover { background: rgba(255,255,255,0.12); }
+.tb-btn.active { background: #fff; color: #000; }
+.tb-status {
+  font-size: 8px; font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.08em; min-width: 90px; text-align: right;
+}
+
+/* ============================================================
+   PAGE NAV (screen only)
+   ============================================================ */
+.page-nav {
+  position: fixed; top: 50%; left: 12px;
+  transform: translateY(-50%);
+  z-index: 9999; display: flex; flex-direction: column; gap: 4px;
+}
+.pn-pill {
+  width: 36px; height: 22px;
+  background: rgba(0,0,0,0.32); color: rgba(255,255,255,0.55);
+  font-family: var(--font); font-size: 7.5px; font-weight: 700;
+  letter-spacing: 0.06em; display: flex; align-items: center;
+  justify-content: center; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border: none; text-decoration: none;
+}
+.pn-pill:hover, .pn-pill.active { background: #fff; color: #000; }
+
+/* ============================================================
+   CONTENTEDITABLE STATES
+   ============================================================ */
+[contenteditable="true"] { cursor: text; outline: none; }
+[contenteditable="true"]:hover { outline: 1.5px solid rgba(0,0,0,0.18); outline-offset: 1px; }
+[contenteditable="true"]:focus { outline: 2px solid #000; outline-offset: 1px; }
+[contenteditable="false"] { cursor: default; outline: none !important; }
+
+/* ============================================================
+   PRINT RULES
+   ============================================================ */
+@page { size: A4 landscape; margin: 0; }
+@media print {
+  html, body { background: white; padding: 0; }
+  .toolbar, .page-nav, .swap-btn { display: none !important; }
+  .img-ph input[type="file"] { display: none !important; }
+  [contenteditable] { outline: none !important; cursor: default !important; }
+  .page { box-shadow: none; margin: 0; }
+}
+
+/* ============================================================
+   GLOBAL TYPOGRAPHY — LINE LENGTH (60–75 chars = optimal for 60+ readers)
+   ============================================================ */
+.body-text    { max-width: 66ch; }
+.body-text-sm { max-width: 64ch; }
+
+/* ============================================================
+   PAGE 1 — COVER  (image-led: left photo, right brand panel)
+   ============================================================ */
+#p1 .page-inner { flex-direction: row; }
+
+/* Left: full-height cover photo */
+#p1 .p1-img-col {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 170mm;
+}
+#p1 .p1-img-col .img-ph {
+  width: 100%;
+  height: 100%;
+}
+
+/* Right: black brand panel */
+#p1 .p1-right {
+  width: 118mm;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 11mm 12mm 11mm 12mm;
+  flex-shrink: 0;
+}
+/* Logo zone at the top */
+#p1 .p1-logo-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 5mm;
+  padding-bottom: 7mm;
+  border-bottom: 0.5pt solid rgba(255,255,255,0.15);
+}
+#p1 .p1-full-logo { width: 82mm; }
+
+/* Middle: headline area */
+#p1 .p1-headline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5mm;
+  padding: 8mm 0 6mm;
+}
+#p1 .p1-heading-cover {
+  font-size: 46pt;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  color: var(--white);
+}
+#p1 .p1-tagline-cover {
+  font-size: 11pt;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.72);
+  max-width: 44ch;
+}
+
+/* Bottom anchor */
+#p1 .p1-anchor-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 2mm;
+  padding-top: 7mm;
+  border-top: 0.5pt solid rgba(255,255,255,0.15);
+  margin-top: auto;
+}
+#p1 .p1-est {
+  font-size: 9pt; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ============================================================
+   PAGE 2 — COMPANY OVERVIEW (editorial redesign)
+   ============================================================ */
+
+/* Black statement band across full width */
+#p2 .p2-statement-band {
+  background: var(--black);
+  padding: 9mm 12mm;
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+#p2 .p2-stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3mm;
+  padding: 0 10mm;
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+#p2 .p2-stat-item:first-child { padding-left: 0; }
+#p2 .p2-stat-item:last-child { border-right: none; }
+#p2 .sband-num {
+  font-size: 40pt; font-weight: 500;
+  letter-spacing: -0.04em; line-height: 1;
+  color: var(--white);
+}
+#p2 .sband-label {
+  font-size: 9pt; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.13em;
+  color: rgba(255,255,255,0.65);
+}
+
+/* Two-zone body: description left, clients right */
+#p2 .p2-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+#p2 .p2-desc-col {
+  flex: 1;
+  padding: 9mm 12mm;
+  display: flex;
+  flex-direction: column;
+  gap: 5mm;
+  border-right: 0.5pt solid rgba(0,0,0,0.1);
+  min-width: 0;
+}
+#p2 .p2-clients-col {
+  width: 126mm;
+  flex-shrink: 0;
+  padding: 9mm 11mm;
+  display: flex;
+  flex-direction: column;
+  gap: 5mm;
+}
+/* Client names: prominent, bold, typographic grid */
+#p2 .client-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: start;
+  gap: 0;
+}
+#p2 .client-row {
+  display: contents;
+}
+#p2 .client-name {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  padding: 3.5mm 0;
+  border-bottom: 0.5pt solid rgba(0,0,0,0.1);
+}
+#p2 .client-name:nth-child(odd) {
+  padding-right: 5mm;
+  border-right: 0.5pt solid rgba(0,0,0,0.1);
+}
+#p2 .client-name:nth-child(even) {
+  padding-left: 6mm;
+}
+/* Body text larger for 60+ readers on slide 2 only */
+#p2 .p2-desc-col .body-text {
+  font-size: 11pt;
+  line-height: 1.6;
+}
+/* Spec-tag row — flows after body paragraphs */
+#p2 .p2-cap-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2mm;
+}
+/* Footnote anchored to bottom of clients column */
+#p2 .p2-client-note {
+  margin-top: auto;
+  font-size: 8pt;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--grey-mid);
+  max-width: 44ch;
+}
+/* Slide 1: thin typographic rule between heading and tagline */
+#p1 .p1-rule {
+  width: 12mm;
+  height: 1pt;
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+  margin: 1mm 0;
+}
+
+/* ============================================================
+   PAGE 3 — INSULATION
+   ============================================================ */
+#p3 .page-inner { flex-direction: row; }
+#p3 .p3-left {
+  flex: 1;
+  padding: 11mm 12mm 11mm 12mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+#p3 .p3-content { display: flex; flex-direction: column; gap: 4mm; }
+#p3 .p3-specs { margin-top: 2mm; display: flex; flex-direction: column; gap: 1.5mm; }
+#p3 .p3-img {
+  width: 104mm; flex-shrink: 0;
+  margin: 5mm 5mm 5mm 0;
+}
+
+/* ============================================================
+   PAGE 4 — PLUG & PLAY + CERTIFIED STEEL  (image left, features right)
+   ============================================================ */
+#p4 .page-inner { flex-direction: row; }
+#p4 .p4-img-col {
+  width: 118mm;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+#p4 .p4-img-col .img-ph {
+  width: 100%;
+  height: 100%;
+}
+#p4 .p4-features {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+#p4 .p4-feat {
+  flex: 1;
+  padding: 9mm 12mm;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5mm;
+  min-height: 0;
+}
+#p4 .p4-feat:first-child {
+  border-bottom: 0.5pt solid rgba(0,0,0,0.1);
+}
+#p4 .p4-feat .tags { margin-top: auto; padding-top: 2mm; }
+
+/* ============================================================
+   PAGE 5 — PREFABRICATION ADVANTAGE
+   ============================================================ */
+#p5 .p5-header {
+  padding: 9mm 12mm 7mm;
+  border-bottom: 1pt solid rgba(0,0,0,0.1);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5mm;
+}
+#p5 .p5-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  min-height: 0;
+}
+#p5 .feature-card {
+  padding: 8mm 11mm;
+  border-right: 0.5pt solid rgba(0,0,0,0.1);
+  border-bottom: 0.5pt solid rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+  overflow: hidden;
+}
+#p5 .feature-card:nth-child(2),
+#p5 .feature-card:nth-child(4) { border-right: none; }
+#p5 .feature-card:nth-child(3),
+#p5 .feature-card:nth-child(4) { border-bottom: none; }
+#p5 .card-num {
+  font-size: 44pt; font-weight: 500;
+  letter-spacing: -0.04em;
+  color: rgba(0,0,0,0.055);
+  line-height: 1;
+  float: right;
+  margin: -3mm -2mm 0 0;
+}
+
+/* ============================================================
+   PAGE 6 — APPLICATION SECTORS (2×2 GRID)
+   ============================================================ */
+#p6 .p6-header {
+  background: var(--black);
+  padding: 5.5mm 12mm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+#p6 .p6-header-wordmark { height: 8mm; opacity: 0.3; }
+
+#p6 .p6-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  min-height: 0;
+}
+#p6 .sector-card {
+  padding: 7mm 11mm;
+  border-right: 0.5pt solid rgba(0,0,0,0.12);
+  border-bottom: 0.5pt solid rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+  overflow: hidden;
+  position: relative;
+}
+#p6 .sector-card:nth-child(2),
+#p6 .sector-card:nth-child(4) { border-right: none; }
+#p6 .sector-card:nth-child(3),
+#p6 .sector-card:nth-child(4) { border-bottom: none; }
+
+#p6 .sector-num-bg {
+  position: absolute;
+  top: -4mm; right: 5mm;
+  font-size: 68pt; font-weight: 500;
+  letter-spacing: -0.05em;
+  color: rgba(0,0,0,0.05);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+#p6 .sector-title-row {
+  display: flex; flex-direction: column; gap: 1mm;
+}
+#p6 .sector-features {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5mm;
+}
+#p6 .kf-block { display: flex; flex-direction: column; gap: 1.5mm; }
+
+/* ============================================================
+   PAGE 7 — PROCESS FLOW (2×2 GRID)
+   ============================================================ */
+#p7 .p7-header {
+  padding: 9mm 12mm 7mm;
+  border-bottom: 1pt solid rgba(0,0,0,0.1);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5mm;
+}
+#p7 .p7-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  min-height: 0;
+}
+#p7 .process-card {
+  padding: 7mm 11mm;
+  border-right: 0.5pt solid rgba(0,0,0,0.1);
+  border-bottom: 0.5pt solid rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+}
+#p7 .process-card:nth-child(2),
+#p7 .process-card:nth-child(4) { border-right: none; }
+#p7 .process-card:nth-child(3),
+#p7 .process-card:nth-child(4) { border-bottom: none; }
+#p7 .step-bg-num {
+  position: absolute;
+  bottom: -8mm; right: 4mm;
+  font-size: 72pt; font-weight: 500;
+  letter-spacing: -0.05em;
+  color: rgba(0,0,0,0.045);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+#p7 .step-content { display: flex; flex-direction: column; gap: 3mm; }
+
+/* ============================================================
+   PAGE 8 — COMPARISON TABLE
+   ============================================================ */
+#p8 { }
+#p8 .p8-inner {
+  flex: 1;
+  padding: 9mm 12mm 8mm;
+  display: flex;
+  flex-direction: column;
+  gap: 6mm;
+  min-height: 0;
+}
+#p8 .p8-header { display: flex; flex-direction: column; gap: 2.5mm; flex-shrink: 0; }
+#p8 .comp-table { width: 100%; border-collapse: collapse; flex: 1; }
+#p8 .comp-table th, #p8 .comp-table td {
+  border: 0.75pt solid rgba(0,0,0,0.18);
+  padding: 4mm 6mm;
+  vertical-align: top; text-align: left;
+}
+#p8 .comp-table th {
+  font-size: 7pt; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  background: var(--light);
+}
+#p8 .comp-table th.col-ms {
+  background: var(--black); color: var(--white);
+}
+#p8 .comp-table td { font-size: 8.5pt; color: var(--grey-text); line-height: 1.55; }
+#p8 .comp-table td strong { color: var(--black); font-weight: 600; }
+#p8 .comp-table .feat-col {
+  font-size: 7pt; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--black); width: 20%;
+}
+#p8 .comp-table tr:nth-child(even) td,
+#p8 .comp-table tr:nth-child(even) .feat-col { background: var(--light); }
+#p8 .comp-table tr:nth-child(odd) td,
+#p8 .comp-table tr:nth-child(odd) .feat-col { background: var(--white); }
+
+/* ============================================================
+   PAGES 9–11 — PROJECT PAGES
+   ============================================================ */
+.project-page .page-inner { flex-direction: row; }
+.proj-img-col {
+  flex: 1;
+  overflow: hidden;
+}
+.proj-img-col .img-ph { width: 100%; height: 100%; }
+.proj-text-col {
+  width: 118mm; flex-shrink: 0;
+  padding: 11mm 12mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 0.5pt solid rgba(0,0,0,0.1);
+}
+.proj-text-col.left-text {
+  border-left: none;
+  border-right: 0.5pt solid rgba(0,0,0,0.1);
+}
+.proj-content { display: flex; flex-direction: column; gap: 4mm; }
+.proj-tags { display: flex; flex-wrap: wrap; gap: 3mm; margin-top: 4mm; }
+
+/* ============================================================
+   PAGE 12 — CONTACT / CTA
+   ============================================================ */
+#p12 .p12-cta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8mm 18mm;
+  text-align: center;
+  gap: 4.5mm;
+}
+#p12 .cta-heading {
+  font-size: 32pt; font-weight: 500;
+  letter-spacing: -0.025em; line-height: 0.97;
+  color: var(--black); max-width: 190mm;
+}
+#p12 .cta-sub {
+  font-size: 10pt; color: var(--grey-text);
+  max-width: 130mm; line-height: 1.65;
+}
+#p12 .cta-btn {
+  display: inline-block;
+  background: var(--black); color: var(--white);
+  font-family: var(--font); font-size: 7.5pt; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  padding: 5.5pt 20pt;
+  margin-top: 2mm; cursor: default;
+}
+#p12 .p12-contacts {
+  display: flex; flex-shrink: 0;
+  border-top: 1pt solid rgba(0,0,0,0.12);
+}
+#p12 .contact-block {
+  flex: 1;
+  padding: 6mm 11mm;
+  border-right: 0.5pt solid rgba(0,0,0,0.1);
+  display: flex; flex-direction: column; gap: 2mm;
+}
+#p12 .contact-block:last-child { border-right: none; }
+#p12 .contact-name { font-size: 9pt; font-weight: 700; color: var(--black); }
+#p12 .contact-line { font-size: 8.5pt; color: var(--grey-text); line-height: 1.65; }
+#p12 .contact-email { font-size: 8.5pt; color: var(--black); font-weight: 700; }
+
+</style>
+</head>
+<body>
+
+<!-- EDITOR TOOLBAR -->
+<div class="toolbar" id="toolbar">
+  <span class="toolbar-label">mTechnic® Editor 2026</span>
+  <button class="tb-btn active" id="editToggle" onclick="toggleEdit()">✎ Edit ON</button>
+  <button class="tb-btn" onclick="saveToFile()">💾 Save</button>
+  <button class="tb-btn" onclick="exportPDF()">📄 Export PDF</button>
+  <span class="tb-status" id="tbStatus">Ready</span>
+</div>
+
+<!-- PAGE NAVIGATION -->
+<nav class="page-nav" id="pageNav">
+  <a class="pn-pill active" href="#p1">01</a>
+  <a class="pn-pill" href="#p2">02</a>
+  <a class="pn-pill" href="#p3">03</a>
+  <a class="pn-pill" href="#p4">04</a>
+  <a class="pn-pill" href="#p5">05</a>
+  <a class="pn-pill" href="#p6">06</a>
+  <a class="pn-pill" href="#p7">07</a>
+  <a class="pn-pill" href="#p8">08</a>
+  <a class="pn-pill" href="#p9">09</a>
+  <a class="pn-pill" href="#p10">10</a>
+  <a class="pn-pill" href="#p11">11</a>
+  <a class="pn-pill" href="#p12">12</a>
+</nav>
+
+
+<!-- ================================================================
+     PAGE 01 — COVER
+     ================================================================ -->
+<section class="page" id="p1">
+  <div class="page-inner row">
+
+    <!-- LEFT: full-height cover photo -->
+    <div class="p1-img-col">
+      <div class="img-ph" id="img-p1">
+        <input type="file" accept="image/*" onchange="swapImage('img-p1',this)">
+        <div class="ph-inner">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="ph-label">Click to add<br>cover photo</span>
+        </div>
+        <button class="swap-btn" onclick="triggerImg('img-p1')">↺ Swap</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: black brand panel -->
+    <div class="p1-right">
+
+      <!-- Logo zone: full Moduł System® wordmark + icon -->
+      <div class="p1-logo-zone">
+        <svg class="p1-full-logo" viewBox="0 0 560 183" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M157.351 67.0838L82.5771 123.279V182.275L157.039 128.851V67.0555H157.351V67.0838Z" fill="white"/>
+          <path d="M36.7768 58.3731L78.5195 27.0089L119.95 58.3731L78.5195 89.7373L36.7768 58.3731ZM78.5195 0L0.936523 58.3731L78.5195 116.746L156.102 58.3731L78.5195 0Z" fill="white"/>
+          <path d="M0 67.0839L74.4614 123.279V182.275L0 128.568V67.0839Z" fill="white"/>
+          <path d="M190.672 92.8483V22.5404H202.648L225.406 78.5096L248.164 22.5404H260.31V92.82H248.363V71.1847C248.363 57.0439 248.363 52.9148 249.044 47.909L231.11 92.82H219.731L201.881 48.0221C202.562 52.2643 202.648 58.8822 202.648 67.6495V92.8483H190.672Z" fill="white"/>
+          <path d="M304.039 93.9796C283.891 93.9796 269.986 79.0752 269.986 57.6378C269.986 36.2004 283.976 21.296 304.124 21.296C324.272 21.296 338.375 36.2004 338.375 57.6378C338.375 79.0752 324.3 93.9796 304.039 93.9796ZM304.124 33.1177C291.184 33.1177 282.898 42.6486 282.898 57.6378C282.898 72.627 291.184 82.1579 304.124 82.1579C317.064 82.1579 325.35 72.4573 325.35 57.6378C325.35 42.8183 317.064 33.1177 304.124 33.1177Z" fill="white"/>
+          <path d="M347.938 92.8483V22.5404H372.626C393.455 22.5404 407.842 36.8792 407.842 57.8358C407.842 78.7924 393.767 92.8483 373.307 92.8483H347.938ZM360.282 33.9096V81.5074H372.144C386.219 81.5074 394.817 72.4573 394.817 57.8641C394.817 43.2708 386.049 33.9379 371.463 33.9379H360.282V33.9096Z" fill="white"/>
+          <path d="M416.923 22.5404H429.267V66.3768C429.267 76.4733 434.772 82.0448 444.789 82.0448C454.806 82.0448 460.425 76.3602 460.425 66.3768V22.5404H472.769V67.1404C472.769 83.572 461.957 93.9796 444.789 93.9796C427.621 93.9796 416.894 83.6851 416.894 67.1404V22.5404H416.923Z" fill="white"/>
+          <path d="M481.651 59.4761L487.922 56.5065V22.5404H500.266V50.624L514.171 43.9778V53.5087L500.266 60.1549V81.5074H529.778V92.8483H487.922V66.0091L481.651 68.9787V59.4478V59.4761Z" fill="white"/>
+          <path d="M211.7 103.708C225.973 103.708 235.054 111.599 235.423 124.269H223.079C222.795 118.217 218.454 114.653 211.501 114.653C203.868 114.653 198.959 118.302 198.959 124.184C198.959 129.19 201.654 131.962 207.557 133.319L218.652 135.723C230.712 138.325 236.587 144.462 236.587 154.955C236.587 168.021 226.371 176.505 210.82 176.505C195.269 176.505 185.933 168.53 185.65 155.916H197.994C198.079 161.884 202.903 165.447 210.82 165.447C218.737 165.447 224.242 161.884 224.242 156.029C224.242 151.306 221.83 148.535 216.042 147.29L204.861 144.801C192.914 142.2 186.643 135.384 186.643 124.608C186.643 112.306 196.859 103.737 211.728 103.737L211.7 103.708Z" fill="white"/>
+          <path d="M235.139 104.981H248.931L262.835 130.548C263.885 132.471 264.566 133.998 265.332 135.751C266.212 134.026 266.581 132.867 267.83 130.548L281.621 104.981H295.043L271.32 147.573V175.261H258.976V147.573L235.139 104.981Z" fill="white"/>
+          <path d="M319.476 103.708C333.75 103.708 342.83 111.599 343.199 124.269H330.855C330.571 118.217 326.23 114.653 319.277 114.653C311.644 114.653 306.735 118.302 306.735 124.184C306.735 129.19 309.43 131.962 315.333 133.319L326.428 135.723C338.489 138.325 344.363 144.462 344.363 154.955C344.363 168.021 334.147 176.505 318.596 176.505C303.046 176.505 293.71 168.53 293.426 155.916H305.77C305.855 161.884 310.679 165.447 318.596 165.447C326.513 165.447 332.019 161.884 332.019 156.029C332.019 151.306 329.607 148.535 323.818 147.29L312.637 144.801C300.662 142.2 294.419 135.384 294.419 124.608C294.419 112.306 304.635 103.737 319.504 103.737L319.476 103.708Z" fill="white"/>
+          <path d="M346.491 104.981H400.124V116.322H379.465V175.261H367.121V116.322H346.463V104.981H346.491Z" fill="white"/>
+          <path d="M407.672 175.261V104.981H451.458V116.322H420.016V134.394H448.194V145.254H420.016V163.92H451.458V175.261H407.672Z" fill="white"/>
+          <path d="M461.021 175.261V104.981H472.996L495.754 160.95L518.513 104.981H530.658V175.261H518.711V153.625C518.711 139.485 518.711 135.355 519.392 130.35L501.458 175.261H490.079L472.23 130.463C472.911 134.705 472.996 141.323 472.996 150.09V175.289H461.021V175.261Z" fill="white"/>
+          <path d="M527.026 33.7965C527.026 24.8878 534.375 17.5629 543.57 17.5629C552.622 17.5629 560 24.8878 560 33.7965C560 42.9031 552.65 50.2281 543.57 50.2281C534.375 50.2281 527.026 42.9031 527.026 33.7965ZM557.418 33.9096C557.418 26.1322 551.26 20.0799 543.541 20.0799C535.624 20.0799 529.722 26.1322 529.722 33.9096C529.722 41.8002 535.567 47.6827 543.541 47.6827C551.288 47.6827 557.418 41.7436 557.418 33.9096ZM538.774 26.6412H543.853C547.145 26.5847 549.103 27.9139 549.046 30.8269V31.0814C548.99 33.1177 548.082 34.3621 546.492 35.0126L549.16 41.0648H545.982L543.513 35.4368H541.555V41.0648H538.774V26.6695V26.6412ZM541.555 29.2997V33.0329H543.825C545.669 33.0329 545.982 32.2127 545.982 30.94C545.925 30.0067 545.215 29.2997 543.825 29.2997H541.555Z" fill="white"/>
+        </svg>
+        <span class="tech-label p1-est" contenteditable="true">mTechnic® · Technical Shelters</span>
+      </div>
+
+      <!-- Headline -->
+      <div class="p1-headline">
+        <div class="p1-heading-cover" contenteditable="true">Technical<br>Shelters</div>
+        <div class="p1-rule"></div>
+        <p class="p1-tagline-cover" contenteditable="true">We design and prefabricate advanced technical shelters for the energy, rail, telecommunications, and critical-infrastructure sectors.</p>
+      </div>
+
+      <!-- Bottom anchor -->
+      <div class="p1-anchor-zone">
+        <span class="p1-est" contenteditable="true">Est. 1993 · Starachowice, Poland</span>
+        <span class="p1-est" style="opacity:0.45;" contenteditable="true">NIP 522-001-13-56</span>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="page-foot" style="border-top-color:rgba(0,0,0,0.1);">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">01</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 02 — COMPANY OVERVIEW
+     ================================================================ -->
+<section class="page" id="p2">
+  <div class="page-inner">
+
+    <!-- Black statement band with three key metrics -->
+    <div class="p2-statement-band">
+      <div class="p2-stat-item">
+        <div class="sband-num" contenteditable="true">30+</div>
+        <div class="sband-label" contenteditable="true">Years of engineering</div>
+      </div>
+      <div class="p2-stat-item">
+        <div class="sband-num" contenteditable="true">2,300+</div>
+        <div class="sband-label" contenteditable="true">Units delivered</div>
+      </div>
+      <div class="p2-stat-item">
+        <div class="sband-num" contenteditable="true">1</div>
+        <div class="sband-label" contenteditable="true">Own production plant — Starachowice</div>
+      </div>
+    </div>
+
+    <!-- Two-column body -->
+    <div class="p2-body">
+
+      <!-- Left: description -->
+      <div class="p2-desc-col">
+        <span class="tech-label" contenteditable="true">01 · About Moduł System</span>
+        <h2 class="h2" contenteditable="true">Specialist prefabricated technical shelters</h2>
+        <p class="body-text" contenteditable="true">We design and prefabricate advanced technical shelters for the energy, rail, telecommunications, and critical-infrastructure sectors. For over 30 years we have delivered bespoke solutions — providing full systems integration directly at our plant in Starachowice.</p>
+        <p class="body-text" contenteditable="true">Every unit leaves our factory fully equipped and ready to connect: integrated electrical, ventilation, and structured cabling pre-installed. Production turnaround: 3–5 days per module.</p>
+        <div class="p2-cap-tags">
+          <span class="spec-tag" contenteditable="true">Electrical Integration</span>
+          <span class="spec-tag" contenteditable="true">Ventilation Systems</span>
+          <span class="spec-tag" contenteditable="true">Structured Cabling</span>
+          <span class="spec-tag" contenteditable="true">3–5 Day Turnaround</span>
+        </div>
+      </div>
+
+      <!-- Right: prominent client list -->
+      <div class="p2-clients-col">
+        <span class="tech-label" contenteditable="true">Trusted by industry leaders</span>
+        <div class="client-grid">
+          <div class="client-name" contenteditable="true">Budimex S.A.</div>
+          <div class="client-name" contenteditable="true">Torpol S.A.</div>
+          <div class="client-name" contenteditable="true">Nokia Poland Ltd.</div>
+          <div class="client-name" contenteditable="true">Thales ATM</div>
+          <div class="client-name" contenteditable="true">Kombud S.A.</div>
+          <div class="client-name" contenteditable="true">Selex Systems</div>
+          <div class="client-name" contenteditable="true">Polkomtel</div>
+          <div class="client-name" contenteditable="true">PP Porty Lotnicze</div>
+          <div class="client-name" contenteditable="true">PKP PLK</div>
+          <div class="client-name" contenteditable="true">PSE S.A.</div>
+          <div class="client-name" contenteditable="true">ENEA Operator</div>
+          <div class="client-name" contenteditable="true">Tauron Dystrybucja</div>
+        </div>
+        <p class="p2-client-note" contenteditable="true">Selected clients across energy, rail, telecoms, and critical-infrastructure sectors. Full reference list on request.</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">02</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 03 — INSULATION & BUILDING PHYSICS
+     ================================================================ -->
+<section class="page" id="p3">
+  <div class="page-inner row">
+    <div class="p3-left">
+      <div class="p3-content">
+        <span class="tech-label" contenteditable="true">01 · Why Moduł System</span>
+        <h2 class="h2" contenteditable="true">Advanced building physics &amp; insulation</h2>
+        <p class="body-text" contenteditable="true">We use certified sandwich panels with a hard mineral wool or rigid PIR polyurethane foam core (e.g. 120 mm) and proprietary sandwich structures. This technology guarantees excellent thermal stability for sensitive ICT equipment, elimination of condensation, and compliance with strict fire protection requirements.</p>
+        <p class="body-text" contenteditable="true">Sandwich-panel technical shelters maintain stable climate conditions for sensitive electronic equipment — even in extreme environments including Alaska, Africa and the Middle East.</p>
+        <div class="p3-specs">
+          <ul class="bullet-list">
+            <li contenteditable="true">Fire resistance rated EI30 / EI60 available</li>
+            <li contenteditable="true">PIR polyurethane foam or mineral wool core</li>
+            <li contenteditable="true">120 mm panel thickness for extreme climates</li>
+            <li contenteditable="true">Zero condensation risk with continuous insulation</li>
+            <li contenteditable="true">Certified for operation from −50°C to +55°C ambient</li>
+          </ul>
+        </div>
+      </div>
+      <div style="padding-bottom:2mm;">
+        <span class="spec-tag" contenteditable="true">EI30 / EI60</span>
+        <span class="spec-tag" contenteditable="true">PIR Core</span>
+        <span class="spec-tag" contenteditable="true">Mineral Wool</span>
+        <span class="spec-tag" contenteditable="true">−50°C to +55°C</span>
+      </div>
+    </div>
+    <div class="p3-img img-ph" id="img-p3">
+      <input type="file" accept="image/*" onchange="swapImage('img-p3',this)">
+      <div class="ph-inner">
+        <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span class="ph-label">Click to add<br>project photo</span>
+      </div>
+      <button class="swap-btn" onclick="triggerImg('img-p3')">↺ Swap</button>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">03</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 04 — PLUG & PLAY + CERTIFIED STEEL
+     ================================================================ -->
+<section class="page" id="p4">
+  <div class="page-inner">
+
+    <!-- LEFT: full-height image (proper aspect ratio) -->
+    <div class="p4-img-col">
+      <div class="img-ph" id="img-p4">
+        <input type="file" accept="image/*" onchange="swapImage('img-p4',this)">
+        <div class="ph-inner">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="ph-label">Shelter interior /<br>systems photo</span>
+        </div>
+        <button class="swap-btn" onclick="triggerImg('img-p4')">↺ Swap</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: two stacked feature sections -->
+    <div class="p4-features">
+
+      <div class="p4-feat">
+        <span class="tech-label" contenteditable="true">02 · Plug &amp; Play delivery</span>
+        <h3 class="h3" contenteditable="true">Complete factory assembly &amp; systems integration</h3>
+        <p class="body-text" contenteditable="true">Every shelter is assembled under factory conditions, then delivered to site as a fully ready-to-connect facility — with technical floors, switchgear, earthing grids, HVAC, cable trays, and certified Roxtec penetrations pre-installed.</p>
+        <div class="tags">
+          <span class="spec-tag" contenteditable="true">3–5 day production</span>
+          <span class="spec-tag" contenteditable="true">FAT included</span>
+          <span class="spec-tag" contenteditable="true">Roxtec</span>
+        </div>
+      </div>
+
+      <div class="p4-feat">
+        <span class="tech-label" contenteditable="true">03 · Certified steel structure</span>
+        <h3 class="h3" contenteditable="true">Heavy-duty welded frame, 15 kN/m² floor load</h3>
+        <p class="body-text" contenteditable="true">Frames welded from S235JR certified hot-rolled and cold-formed profiles. Durable polyurethane anti-corrosion coating. Anti-burglary doors certified RC2 through RC4. 36-month standard warranty.</p>
+        <div class="tags">
+          <span class="spec-tag" contenteditable="true">15 kN/m²</span>
+          <span class="spec-tag" contenteditable="true">RC2–RC4 doors</span>
+          <span class="spec-tag" contenteditable="true">36-month warranty</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">04</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 05 — PREFABRICATION ADVANTAGE (2×2 cards)
+     ================================================================ -->
+<section class="page" id="p5">
+  <div class="page-inner">
+    <div class="p5-header">
+      <span class="tech-label" contenteditable="true">The advantage of dedicated prefabrication</span>
+      <h2 class="h2" contenteditable="true">30 years of prefabricating advanced steel structures in Starachowice</h2>
+    </div>
+    <div class="p5-grid">
+      <div class="feature-card">
+        <div class="card-num">01</div>
+        <span class="tech-label" contenteditable="true">Structure</span>
+        <h3 class="h3" contenteditable="true">Robust steel structure</h3>
+        <p class="body-text" contenteditable="true">Frames welded from high-strength cold-formed and hot-rolled profiles. Proven anti-corrosion coating systems and galvanised sheeting ensure years of trouble-free operation in the harshest outdoor conditions.</p>
+      </div>
+      <div class="feature-card">
+        <div class="card-num">02</div>
+        <span class="tech-label" contenteditable="true">Insulation</span>
+        <h3 class="h3" contenteditable="true">High thermal &amp; environmental performance</h3>
+        <p class="body-text" contenteditable="true">Sandwich-panel shelters (mineral wool or PIR core) deliver excellent thermal insulation, eliminate condensation, and maintain stable climate conditions for sensitive electronic equipment.</p>
+      </div>
+      <div class="feature-card">
+        <div class="card-num">03</div>
+        <span class="tech-label" contenteditable="true">Integration</span>
+        <h3 class="h3" contenteditable="true">Full systems integration (FAT)</h3>
+        <p class="body-text" contenteditable="true">We install technical floors, HVAC systems, cable trays, electrical switchgear and fire-suppression systems directly in our factory. The building arrives on site as a fully equipped, ready-to-connect unit.</p>
+      </div>
+      <div class="feature-card">
+        <div class="card-num">04</div>
+        <span class="tech-label" contenteditable="true">Dimensions</span>
+        <h3 class="h3" contenteditable="true">Complete dimensional flexibility</h3>
+        <p class="body-text" contenteditable="true">Standard transport dimensions are not a constraint. Every shelter is built from individual engineering documentation — with precisely positioned technology openings, Roxtec penetrations and reinforcements for heavy equipment.</p>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">05</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 06 — APPLICATION SECTORS (2×2 grid — replaces 4 columns)
+     ================================================================ -->
+<section class="page" id="p6">
+  <div class="page-inner">
+    <div class="p6-header">
+      <span class="tech-label-inv" contenteditable="true">Primary application areas</span>
+      <!-- Full logo white in header -->
+      <svg class="p6-header-wordmark" viewBox="0 0 400 93" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0.672 92.8483V22.5404H12.648L35.406 78.5096L58.164 22.5404H70.31V92.82H58.363V71.1847C58.363 57.0439 58.363 52.9148 59.044 47.909L41.11 92.82H29.731L11.881 48.0221C12.562 52.2643 12.648 58.8822 12.648 67.6495V92.8483H0.672Z" fill="white" opacity="0.45"/>
+        <path d="M114.039 93.9796C93.891 93.9796 79.986 79.0752 79.986 57.6378C79.986 36.2004 93.976 21.296 114.124 21.296C134.272 21.296 148.375 36.2004 148.375 57.6378C148.375 79.0752 134.3 93.9796 114.039 93.9796ZM114.124 33.1177C101.184 33.1177 92.898 42.6486 92.898 57.6378C92.898 72.627 101.184 82.1579 114.124 82.1579C127.064 82.1579 135.35 72.4573 135.35 57.6378C135.35 42.8183 127.064 33.1177 114.124 33.1177Z" fill="white" opacity="0.45"/>
+        <path d="M157.938 92.8483V22.5404H182.626C203.455 22.5404 217.842 36.8792 217.842 57.8358C217.842 78.7924 203.767 92.8483 183.307 92.8483H157.938ZM170.282 33.9096V81.5074H182.144C196.219 81.5074 204.817 72.4573 204.817 57.8641C204.817 43.2708 196.049 33.9379 181.463 33.9379H170.282V33.9096Z" fill="white" opacity="0.45"/>
+        <path d="M226.923 22.5404H239.267V66.3768C239.267 76.4733 244.772 82.0448 254.789 82.0448C264.806 82.0448 270.425 76.3602 270.425 66.3768V22.5404H282.769V67.1404C282.769 83.572 271.957 93.9796 254.789 93.9796C237.621 93.9796 226.894 83.6851 226.894 67.1404V22.5404H226.923Z" fill="white" opacity="0.45"/>
+        <path d="M291.651 59.4761L297.922 56.5065V22.5404H310.266V50.624L324.171 43.9778V53.5087L310.266 60.1549V81.5074H339.778V92.8483H297.922V66.0091L291.651 68.9787V59.4478V59.4761Z" fill="white" opacity="0.45"/>
+      </svg>
+    </div>
+
+    <div class="p6-grid">
+      <!-- SECTOR 01 -->
+      <div class="sector-card">
+        <div class="sector-num-bg">01</div>
+        <div class="sector-title-row">
+          <span class="tech-label" contenteditable="true">Energetyka / BESS</span>
+          <h3 class="h3" contenteditable="true">Energy &amp; Battery Storage</h3>
+        </div>
+        <div class="sector-features">
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Application</span>
+            <p class="body-text-sm" contenteditable="true">Technical shelters for battery energy storage systems (BESS), transformer stations, MV/LV switchgear (e-houses)</p>
+          </div>
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Key features</span>
+            <ul class="bullet-list">
+              <li style="font-size:8pt;" contenteditable="true">High floor load capacity for heavy battery racks</li>
+              <li style="font-size:8pt;" contenteditable="true">Integrated gas suppression systems</li>
+              <li style="font-size:8pt;" contenteditable="true">Precision air conditioning, EI fire-resistance</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTOR 02 -->
+      <div class="sector-card">
+        <div class="sector-num-bg">02</div>
+        <div class="sector-title-row">
+          <span class="tech-label" contenteditable="true">Kolej / SRK</span>
+          <h3 class="h3" contenteditable="true">Rail Infrastructure</h3>
+        </div>
+        <div class="sector-features">
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Application</span>
+            <p class="body-text-sm" contenteditable="true">Modular interlocking cabins, SRK telecoms shelters, traffic controller buildings</p>
+          </div>
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Key features</span>
+            <ul class="bullet-list">
+              <li style="font-size:8pt;" contenteditable="true">Technical floors with RHDPE duct penetrations</li>
+              <li style="font-size:8pt;" contenteditable="true">Reinforced frame structure</li>
+              <li style="font-size:8pt;" contenteditable="true">Full railway infrastructure manager compliance</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTOR 03 -->
+      <div class="sector-card">
+        <div class="sector-num-bg">03</div>
+        <div class="sector-title-row">
+          <span class="tech-label" contenteditable="true">Telekomunikacja / IT</span>
+          <h3 class="h3" contenteditable="true">Telecommunications &amp; IT</h3>
+        </div>
+        <div class="sector-features">
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Application</span>
+            <p class="body-text-sm" contenteditable="true">Mobile base stations, distribution nodes, edge data centres</p>
+          </div>
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Key features</span>
+            <ul class="bullet-list">
+              <li style="font-size:8pt;" contenteditable="true">Fully sealed shelter, high-efficiency cooling</li>
+              <li style="font-size:8pt;" contenteditable="true">Anti-static technical floors</li>
+              <li style="font-size:8pt;" contenteditable="true">RC3/RC4 security-class anti-burglary doors</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTOR 04 -->
+      <div class="sector-card">
+        <div class="sector-num-bg">04</div>
+        <div class="sector-title-row">
+          <span class="tech-label" contenteditable="true">Lotnictwo / Specjalne</span>
+          <h3 class="h3" contenteditable="true">Air Navigation &amp; Special</h3>
+        </div>
+        <div class="sector-features">
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Application</span>
+            <p class="body-text-sm" contenteditable="true">Shelters for ILS/DVOR systems, radar facilities, critical infrastructure guardhouses</p>
+          </div>
+          <div class="kf-block">
+            <span class="tech-label-sm" contenteditable="true">Key features</span>
+            <ul class="bullet-list">
+              <li style="font-size:8pt;" contenteditable="true">Designed for extreme climatic conditions</li>
+              <li style="font-size:8pt;" contenteditable="true">Specialist roof penetrations (radio non-interfering)</li>
+              <li style="font-size:8pt;" contenteditable="true">Tight dimensional tolerances</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">06</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 07 — PROCESS FLOW (2×2 grid — replaces 4 narrow columns)
+     ================================================================ -->
+<section class="page" id="p7">
+  <div class="page-inner">
+    <div class="p7-header">
+      <span class="tech-label" contenteditable="true">From documentation to installation on site</span>
+      <h2 class="h2" contenteditable="true">Our production &amp; delivery process</h2>
+    </div>
+    <div class="p7-grid">
+      <div class="process-card">
+        <div class="step-bg-num">01</div>
+        <div class="step-content">
+          <span class="tech-label" contenteditable="true">01 · Analysis</span>
+          <h3 class="h3" contenteditable="true">Analysis &amp; optimisation</h3>
+          <p class="body-text" contenteditable="true">We work from the client's technical documentation. Our engineers verify the design for feasibility, load capacity, and material optimisation. Recommendations included as standard.</p>
+        </div>
+        <div></div>
+      </div>
+      <div class="process-card">
+        <div class="step-bg-num">02</div>
+        <div class="step-content">
+          <span class="tech-label" contenteditable="true">02 · Prefabrication</span>
+          <h3 class="h3" contenteditable="true">Prefabrication in Starachowice</h3>
+          <p class="body-text" contenteditable="true">Steel frame production, welding, anti-corrosion treatment and installation of the sealed wall and roof cladding. All work done in our own plant under controlled conditions.</p>
+        </div>
+        <div></div>
+      </div>
+      <div class="process-card">
+        <div class="step-bg-num">03</div>
+        <div class="step-content">
+          <span class="tech-label" contenteditable="true">03 · Integration</span>
+          <h3 class="h3" contenteditable="true">Systems integration</h3>
+          <p class="body-text" contenteditable="true">Installation of security-class door sets, technical and anti-static flooring, conduit systems, and complete fit-out (HVAC, electrical, cable trays) before the unit is dispatched.</p>
+        </div>
+        <div></div>
+      </div>
+      <div class="process-card">
+        <div class="step-bg-num">04</div>
+        <div class="step-content">
+          <span class="tech-label" contenteditable="true">04 · Delivery</span>
+          <h3 class="h3" contenteditable="true">Logistics &amp; delivery</h3>
+          <p class="body-text" contenteditable="true">Coordination of oversized transport to the destination — from trackside stations to critical infrastructure sites — and support for on-site installation on foundations.</p>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">07</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 08 — COMPARISON TABLE
+     ================================================================ -->
+<section class="page" id="p8">
+  <div class="page-inner">
+    <div class="p8-inner">
+      <div class="p8-header">
+        <span class="tech-label" contenteditable="true">Technical shelter vs. adapted shipping container</span>
+        <h2 class="h2" contenteditable="true">A purpose-built technical shelter is a fundamentally different engineering solution</h2>
+      </div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th class="feat-col" contenteditable="true">Feature</th>
+            <th contenteditable="true">Adapted shipping container</th>
+            <th class="col-ms" contenteditable="true">Moduł System Technical Shelter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat-col" contenteditable="true">Dimensions</td>
+            <td contenteditable="true"><strong>Fixed</strong> — width limited to approx. 2.4 m. No flexibility for equipment layout.</td>
+            <td contenteditable="true"><strong>Full flexibility</strong> — dimensions dictated by equipment size and functional layout. No standard limits.</td>
+          </tr>
+          <tr>
+            <td class="feat-col" contenteditable="true">Thermal insulation</td>
+            <td contenteditable="true">Internal insulation required — <strong>high risk</strong> of concealed thermal bridges and condensation.</td>
+            <td contenteditable="true"><strong>Integrated sandwich panel</strong> providing continuous insulation and zero dew-point risk.</td>
+          </tr>
+          <tr>
+            <td class="feat-col" contenteditable="true">Technology openings</td>
+            <td contenteditable="true">Cutting openings in finished sheet <strong>permanently weakens</strong> structural load capacity.</td>
+            <td contenteditable="true">Openings, grilles and penetrations <strong>designed and reinforced</strong> during frame welding.</td>
+          </tr>
+          <tr>
+            <td class="feat-col" contenteditable="true">Floor system</td>
+            <td contenteditable="true">Standard plywood — difficult to replace with engineered cable management floor systems.</td>
+            <td contenteditable="true"><strong>Engineered technical floor</strong> designed for high loads (RACK cabinets, batteries, switchgear).</td>
+          </tr>
+          <tr>
+            <td class="feat-col" contenteditable="true">Systems integration</td>
+            <td contenteditable="true">Requires full fit-out on site, without factory quality control conditions.</td>
+            <td contenteditable="true"><strong>Full FAT</strong> — HVAC, electrical, cable management installed and tested in factory before delivery.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">08</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 09 — PROJECT: RAIL SRK
+     ================================================================ -->
+<section class="page project-page" id="p9">
+  <div class="page-inner row">
+    <div class="proj-img-col">
+      <div class="img-ph" id="img-p9" style="height:100%;">
+        <input type="file" accept="image/*" onchange="swapImage('img-p9',this)">
+        <div class="ph-inner"><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="ph-label">Project photo<br>Rail / SRK shelter</span></div>
+        <button class="swap-btn" onclick="triggerImg('img-p9')">↺ Swap image</button>
+      </div>
+    </div>
+    <div class="proj-text-col">
+      <div class="proj-content">
+        <span class="tech-label" contenteditable="true">01 · Selected Projects</span>
+        <h2 class="h2" contenteditable="true">Modular signal boxes and SRK technical shelters</h2>
+        <p class="body-text" contenteditable="true">We design and deliver advanced modular signal boxes and technical shelters for strategic railway investments. Our structures are based on certified S235JR steel protected by industrial-grade KTX 06 anti-graffiti coatings.</p>
+        <p class="body-text" contenteditable="true">Each unit integrates precision climate control systems and advanced power distribution, ensuring the operational continuity of signalling and control systems (SRK) in the most demanding field and climatic conditions.</p>
+        <ul class="bullet-list" style="margin-top:2mm;">
+          <li contenteditable="true">Certified S235JR steel frame</li>
+          <li contenteditable="true">KTX 06 industrial anti-graffiti coating</li>
+          <li contenteditable="true">Integrated precision HVAC &amp; PDU</li>
+          <li contenteditable="true">Full railway infrastructure manager compliance</li>
+        </ul>
+      </div>
+      <div class="proj-tags">
+        <span class="spec-tag" contenteditable="true">Rail / SRK</span>
+        <span class="spec-tag" contenteditable="true">S235JR Steel</span>
+        <span class="spec-tag" contenteditable="true">KTX 06 Coating</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">09</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 10 — PROJECT: MILITARY NAVIGATION
+     ================================================================ -->
+<section class="page project-page" id="p10">
+  <div class="page-inner row">
+    <div class="proj-text-col left-text">
+      <div class="proj-content">
+        <span class="tech-label" contenteditable="true">02 · Selected Projects</span>
+        <h2 class="h2" contenteditable="true">Navigation shelters for US military standards</h2>
+        <p class="body-text" contenteditable="true">We have delivered over 120 specialized navigation shelters for the US market, providing solutions used by global guidance systems and military units. We utilize hybrid technology combining steel and laminates, ensuring full electromagnetic shielding and resistance to extreme environmental factors.</p>
+        <p class="body-text" contenteditable="true">Our units are engineered for air transport including C-130 Hercules aircraft, confirming their superior mechanical strength and precision manufacturing in accordance with rigorous military standards.</p>
+        <ul class="bullet-list" style="margin-top:2mm;">
+          <li contenteditable="true">120+ specialized units delivered to US market</li>
+          <li contenteditable="true">Full electromagnetic shielding (EMC)</li>
+          <li contenteditable="true">Air-transportable — C-130 Hercules certified</li>
+          <li contenteditable="true">Hybrid steel + laminate construction</li>
+        </ul>
+      </div>
+      <div class="proj-tags">
+        <span class="spec-tag" contenteditable="true">Military / ILS / DVOR</span>
+        <span class="spec-tag" contenteditable="true">120+ units</span>
+        <span class="spec-tag" contenteditable="true">C-130 certified</span>
+      </div>
+    </div>
+    <div class="proj-img-col">
+      <div class="img-ph" id="img-p10" style="height:100%;">
+        <input type="file" accept="image/*" onchange="swapImage('img-p10',this)">
+        <div class="ph-inner"><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="ph-label">Project photo<br>Navigation shelter</span></div>
+        <button class="swap-btn" onclick="triggerImg('img-p10')">↺ Swap image</button>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">10</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 11 — PROJECT: TELECOMMUNICATIONS
+     ================================================================ -->
+<section class="page project-page" id="p11">
+  <div class="page-inner row">
+    <div class="proj-img-col">
+      <div class="img-ph" id="img-p11" style="height:100%;">
+        <input type="file" accept="image/*" onchange="swapImage('img-p11',this)">
+        <div class="ph-inner"><svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="ph-label">Project photo<br>Telecom shelter</span></div>
+        <button class="swap-btn" onclick="triggerImg('img-p11')">↺ Swap image</button>
+      </div>
+    </div>
+    <div class="proj-text-col">
+      <div class="proj-content">
+        <span class="tech-label" contenteditable="true">03 · Selected Projects</span>
+        <h2 class="h2" contenteditable="true">High-scale telecommunications shelter prefabrication</h2>
+        <p class="body-text" contenteditable="true">With a track record of over 2,300 technical shelters delivered, we are a leading provider of nationwide telecommunications infrastructure. Our shelters — ranging from steel skeletons to lightweight laminate systems — are designed with a focus on advanced thermal management (active and passive heat dissipation).</p>
+        <p class="body-text" contenteditable="true">By mastering serial prefabrication processes, we enable rapid network scaling while ensuring a minimum 30-year operational lifespan for facilities in all weather conditions.</p>
+        <ul class="bullet-list" style="margin-top:2mm;">
+          <li contenteditable="true">2,300+ shelters delivered nationwide</li>
+          <li contenteditable="true">Serial prefabrication for rapid network scaling</li>
+          <li contenteditable="true">Advanced active and passive thermal management</li>
+          <li contenteditable="true">Minimum 30-year operational lifespan</li>
+        </ul>
+      </div>
+      <div class="proj-tags">
+        <span class="spec-tag" contenteditable="true">Telecoms / IT</span>
+        <span class="spec-tag" contenteditable="true">2,300+ units</span>
+        <span class="spec-tag" contenteditable="true">30-year lifespan</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-foot">
+    <span class="foot-domain">www.modulsystem.pl</span>
+    <span class="foot-num">11</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     PAGE 12 — CONTACT / CTA
+     ================================================================ -->
+<section class="page" id="p12">
+  <div class="page-inner">
+    <div class="p12-cta">
+      <span class="tech-label" contenteditable="true">We invite you to work with us</span>
+      <div class="cta-heading" contenteditable="true">Looking for a reliable partner for single-unit or serial prefabrication?</div>
+      <p class="cta-sub" contenteditable="true">Send us your technical documentation — our engineering team will analyse it and prepare a detailed quotation and project schedule.</p>
+      <div class="cta-btn" contenteditable="true">Contact our estimating team →</div>
+    </div>
+
+    <div class="p12-contacts">
+      <div class="contact-block">
+        <span class="tech-label" contenteditable="true">01 · Technical &amp; Sales Office</span>
+        <div class="contact-name" contenteditable="true">Moduł System sp. z o.o.</div>
+        <div class="contact-line" contenteditable="true">ul. Berezyńska 39<br>03-908 Warszawa</div>
+        <div class="contact-email" contenteditable="true">officewaw@modulsystem.pl</div>
+      </div>
+      <div class="contact-block">
+        <span class="tech-label" contenteditable="true">02 · Production Plant</span>
+        <div class="contact-name" contenteditable="true">Zakład Produkcyjny</div>
+        <div class="contact-line" contenteditable="true">ul. Ostrowiecka 27<br>27-200 Starachowice</div>
+      </div>
+      <div class="contact-block">
+        <span class="tech-label" contenteditable="true">03 · Company Details</span>
+        <div class="contact-name" contenteditable="true">Dane rejestrowe</div>
+        <div class="contact-line" contenteditable="true">NIP&nbsp;&nbsp;522-001-13-56<br>KRS&nbsp;&nbsp;0000135879</div>
+        <div style="margin-top:3mm;"><span class="spec-tag" style="font-size:6pt;" contenteditable="true">Est. 1993 · Warsaw</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Black footer with full logo -->
+  <div class="page-foot-dark">
+    <svg class="foot-logo-svg" viewBox="0 0 560 183" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M157.351 67.0838L82.5771 123.279V182.275L157.039 128.851V67.0555H157.351V67.0838Z" fill="white" opacity="0.5"/>
+      <path d="M36.7768 58.3731L78.5195 27.0089L119.95 58.3731L78.5195 89.7373L36.7768 58.3731ZM78.5195 0L0.936523 58.3731L78.5195 116.746L156.102 58.3731L78.5195 0Z" fill="white" opacity="0.5"/>
+      <path d="M0 67.0839L74.4614 123.279V182.275L0 128.568V67.0839Z" fill="white" opacity="0.5"/>
+      <path d="M190.672 92.8483V22.5404H202.648L225.406 78.5096L248.164 22.5404H260.31V92.82H248.363V71.1847C248.363 57.0439 248.363 52.9148 249.044 47.909L231.11 92.82H219.731L201.881 48.0221C202.562 52.2643 202.648 58.8822 202.648 67.6495V92.8483H190.672Z" fill="white" opacity="0.5"/>
+      <path d="M304.039 93.9796C283.891 93.9796 269.986 79.0752 269.986 57.6378C269.986 36.2004 283.976 21.296 304.124 21.296C324.272 21.296 338.375 36.2004 338.375 57.6378C338.375 79.0752 324.3 93.9796 304.039 93.9796ZM304.124 33.1177C291.184 33.1177 282.898 42.6486 282.898 57.6378C282.898 72.627 291.184 82.1579 304.124 82.1579C317.064 82.1579 325.35 72.4573 325.35 57.6378C325.35 42.8183 317.064 33.1177 304.124 33.1177Z" fill="white" opacity="0.5"/>
+      <path d="M347.938 92.8483V22.5404H372.626C393.455 22.5404 407.842 36.8792 407.842 57.8358C407.842 78.7924 393.767 92.8483 373.307 92.8483H347.938ZM360.282 33.9096V81.5074H372.144C386.219 81.5074 394.817 72.4573 394.817 57.8641C394.817 43.2708 386.049 33.9379 371.463 33.9379H360.282V33.9096Z" fill="white" opacity="0.5"/>
+      <path d="M416.923 22.5404H429.267V66.3768C429.267 76.4733 434.772 82.0448 444.789 82.0448C454.806 82.0448 460.425 76.3602 460.425 66.3768V22.5404H472.769V67.1404C472.769 83.572 461.957 93.9796 444.789 93.9796C427.621 93.9796 416.894 83.6851 416.894 67.1404V22.5404H416.923Z" fill="white" opacity="0.5"/>
+      <path d="M481.651 59.4761L487.922 56.5065V22.5404H500.266V50.624L514.171 43.9778V53.5087L500.266 60.1549V81.5074H529.778V92.8483H487.922V66.0091L481.651 68.9787V59.4478V59.4761Z" fill="white" opacity="0.5"/>
+      <path d="M211.7 103.708C225.973 103.708 235.054 111.599 235.423 124.269H223.079C222.795 118.217 218.454 114.653 211.501 114.653C203.868 114.653 198.959 118.302 198.959 124.184C198.959 129.19 201.654 131.962 207.557 133.319L218.652 135.723C230.712 138.325 236.587 144.462 236.587 154.955C236.587 168.021 226.371 176.505 210.82 176.505C195.269 176.505 185.933 168.53 185.65 155.916H197.994C198.079 161.884 202.903 165.447 210.82 165.447C218.737 165.447 224.242 161.884 224.242 156.029C224.242 151.306 221.83 148.535 216.042 147.29L204.861 144.801C192.914 142.2 186.643 135.384 186.643 124.608C186.643 112.306 196.859 103.737 211.728 103.737L211.7 103.708Z" fill="white" opacity="0.5"/>
+      <path d="M235.139 104.981H248.931L262.835 130.548C263.885 132.471 264.566 133.998 265.332 135.751C266.212 134.026 266.581 132.867 267.83 130.548L281.621 104.981H295.043L271.32 147.573V175.261H258.976V147.573L235.139 104.981Z" fill="white" opacity="0.5"/>
+      <path d="M319.476 103.708C333.75 103.708 342.83 111.599 343.199 124.269H330.855C330.571 118.217 326.23 114.653 319.277 114.653C311.644 114.653 306.735 118.302 306.735 124.184C306.735 129.19 309.43 131.962 315.333 133.319L326.428 135.723C338.489 138.325 344.363 144.462 344.363 154.955C344.363 168.021 334.147 176.505 318.596 176.505C303.046 176.505 293.71 168.53 293.426 155.916H305.77C305.855 161.884 310.679 165.447 318.596 165.447C326.513 165.447 332.019 161.884 332.019 156.029C332.019 151.306 329.607 148.535 323.818 147.29L312.637 144.801C300.662 142.2 294.419 135.384 294.419 124.608C294.419 112.306 304.635 103.737 319.504 103.737L319.476 103.708Z" fill="white" opacity="0.5"/>
+      <path d="M346.491 104.981H400.124V116.322H379.465V175.261H367.121V116.322H346.463V104.981H346.491Z" fill="white" opacity="0.5"/>
+      <path d="M407.672 175.261V104.981H451.458V116.322H420.016V134.394H448.194V145.254H420.016V163.92H451.458V175.261H407.672Z" fill="white" opacity="0.5"/>
+      <path d="M461.021 175.261V104.981H472.996L495.754 160.95L518.513 104.981H530.658V175.261H518.711V153.625C518.711 139.485 518.711 135.355 519.392 130.35L501.458 175.261H490.079L472.23 130.463C472.911 134.705 472.996 141.323 472.996 150.09V175.289H461.021V175.261Z" fill="white" opacity="0.5"/>
+    </svg>
+    <span class="foot-copy" contenteditable="true">© 2026 Moduł System sp. z o.o. · All rights reserved</span>
+    <span class="foot-web" contenteditable="true">www.modulsystem.pl</span>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     JAVASCRIPT — WYSIWYG, IMAGE SWAP, SAVE, EXPORT
+     ================================================================ -->
+<script>
+(function(){
+  'use strict';
+  let editMode = true;
+  const STORAGE_KEY = 'mtechnic_pres_v2';
+  let saveTimer = null;
+
+  function toggleEdit(){
+    editMode = !editMode;
+    document.querySelectorAll('[contenteditable]').forEach(el =>
+      el.setAttribute('contenteditable', editMode ? 'true' : 'false'));
+    const btn = document.getElementById('editToggle');
+    btn.textContent = editMode ? '✎ Edit ON' : '● View';
+    btn.classList.toggle('active', editMode);
+    setStatus(editMode ? 'Edit mode' : 'View mode');
+  }
+
+  function setStatus(msg, dur){
+    const el = document.getElementById('tbStatus');
+    el.textContent = msg;
+    if(dur) setTimeout(()=>{ el.textContent='Ready'; }, dur);
+  }
+
+  function scheduleAutoSave(){
+    if(saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveToLocalStorage, 900);
+  }
+
+  function saveToLocalStorage(){
+    try {
+      const text={}, imgs={};
+      document.querySelectorAll('[contenteditable]').forEach((el,i)=>{
+        const key = el.id || el.dataset.key || 'ce_'+i;
+        text[key] = el.innerHTML;
+      });
+      document.querySelectorAll('.img-ph').forEach(ph=>{
+        const img = ph.querySelector('img.ph-img');
+        if(img) imgs[ph.id] = img.src;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({text, imgs}));
+      setStatus('Auto-saved ✓', 1500);
+    } catch(e){ console.warn('LS save fail',e); }
+  }
+
+  function restoreFromLocalStorage(){
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return;
+      const {text, imgs} = JSON.parse(raw);
+      if(text){
+        const ces = document.querySelectorAll('[contenteditable]');
+        ces.forEach((el,i)=>{
+          const key = el.id || el.dataset.key || 'ce_'+i;
+          if(text[key] !== undefined) el.innerHTML = text[key];
+        });
+      }
+      if(imgs){
+        Object.entries(imgs).forEach(([id,src]) => restoreImage(id, src));
+      }
+    } catch(e){ console.warn('LS restore fail',e); }
+  }
+
+  function swapImage(phId, input){
+    const file = input.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = e => { restoreImage(phId, e.target.result); scheduleAutoSave(); };
+    reader.readAsDataURL(file);
+  }
+
+  function restoreImage(phId, src){
+    const ph = document.getElementById(phId);
+    if(!ph) return;
+    const ex = ph.querySelector('img.ph-img');
+    if(ex) ex.remove();
+    const inner = ph.querySelector('.ph-inner');
+    if(inner) inner.style.display = 'none';
+    const img = document.createElement('img');
+    img.className = 'ph-img';
+    img.src = src;
+    ph.insertBefore(img, ph.querySelector('.swap-btn'));
+  }
+
+  function triggerImg(phId){
+    const ph = document.getElementById(phId);
+    if(ph){ const inp = ph.querySelector('input[type="file"]'); if(inp) inp.click(); }
+  }
+
+  function saveToFile(){
+    setStatus('Saving…');
+    fetch('/save',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({html:'<!DOCTYPE html>\n'+document.documentElement.outerHTML})
+    }).then(r=>r.json()).then(d=>{
+      setStatus(d.ok ? 'Saved ✓' : 'Error: '+d.error, 2500);
+    }).catch(()=>setStatus('Server offline — using localStorage only', 3000));
+  }
+
+  function exportPDF(){
+    setStatus('Generating PDF… ⏳');
+    fetch('/export-pdf',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({html:'<!DOCTYPE html>\n'+document.documentElement.outerHTML})
+    }).then(r=>r.json()).then(d=>{
+      setStatus(d.ok ? '✓ PDF saved → mTechnic_Presentation_2026.pdf' : 'Error: '+d.error, 5000);
+    }).catch(()=>setStatus('Server offline — use Ctrl+P to print as PDF', 4000));
+  }
+
+  // Page nav highlight
+  function initNav(){
+    const pages = document.querySelectorAll('.page');
+    const pills = document.querySelectorAll('.pn-pill');
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const i = Array.from(pages).indexOf(e.target);
+          pills.forEach((p,j) => p.classList.toggle('active', i===j));
+        }
+      });
+    },{threshold:0.4});
+    pages.forEach(p => obs.observe(p));
+  }
+
+  // Click image placeholder to trigger file picker
+  function initImgPhs(){
+    document.querySelectorAll('.img-ph').forEach(ph=>{
+      ph.addEventListener('click', e=>{
+        if(e.target.classList.contains('swap-btn') || e.target.tagName==='BUTTON') return;
+        const inp = ph.querySelector('input[type="file"]');
+        if(inp) inp.click();
+      });
+    });
+  }
+
+  // Wire contenteditable auto-save
+  function initEditable(){
+    document.querySelectorAll('[contenteditable]').forEach(el=>{
+      el.addEventListener('input', scheduleAutoSave);
+    });
+  }
+
+  // Expose globals
+  window.toggleEdit = toggleEdit;
+  window.saveToFile = saveToFile;
+  window.exportPDF = exportPDF;
+  window.swapImage = swapImage;
+  window.triggerImg = triggerImg;
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    restoreFromLocalStorage();
+    initImgPhs();
+    initNav();
+    initEditable();
+  });
+})();
+</script>
+</body>
+</html>
