@@ -5,3 +5,4 @@ extracted_images/
 .claude/
 .DS_Store
 *.log
+.vercel
