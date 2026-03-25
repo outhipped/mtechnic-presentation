@@ -1560,6 +1560,15 @@ body {
   const STORAGE_KEY = 'mtechnic_pres_v2';
   let saveTimer = null;
 
+  // ── API routing ──────────────────────────────────────────────────────────
+  // Local dev  → relative URLs  (Express serves everything on localhost)
+  // Vercel     → calls Railway backend for PDF/save
+  // Update RAILWAY_URL after first Railway deploy.
+  const RAILWAY_URL = 'RAILWAY_PLACEHOLDER';
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? ''
+    : RAILWAY_URL;
+
   function toggleEdit(){
     editMode = !editMode;
     document.querySelectorAll('[contenteditable]').forEach(el =>
@@ -1643,24 +1652,45 @@ body {
 
   function saveToFile(){
     setStatus('Saving…');
-    fetch('/save',{
+    const html = '<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    fetch(API_BASE+'/save',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({html:'<!DOCTYPE html>\n'+document.documentElement.outerHTML})
-    }).then(r=>r.json()).then(d=>{
-      setStatus(d.ok ? 'Saved ✓' : 'Error: '+d.error, 2500);
+      body: JSON.stringify({html})
+    }).then(r=>{
+      if(!r.ok) throw new Error('server error');
+      const cd = r.headers.get('Content-Disposition')||'';
+      if(cd.includes('attachment')){
+        // Cloud: server returned the file as a download
+        return r.blob().then(blob=>{
+          const url=URL.createObjectURL(blob);
+          const a=document.createElement('a');
+          a.href=url; a.download='mTechnic_Presentation.html'; a.click();
+          URL.revokeObjectURL(url);
+          setStatus('Saved ✓ (downloaded)', 2500);
+        });
+      }
+      return r.json().then(d=>setStatus(d.ok ? 'Saved ✓' : 'Error: '+d.error, 2500));
     }).catch(()=>setStatus('Server offline — using localStorage only', 3000));
   }
 
   function exportPDF(){
     setStatus('Generating PDF… ⏳');
-    fetch('/export-pdf',{
+    const html = '<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    fetch(API_BASE+'/export-pdf',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({html:'<!DOCTYPE html>\n'+document.documentElement.outerHTML})
-    }).then(r=>r.json()).then(d=>{
-      setStatus(d.ok ? '✓ PDF saved → mTechnic_Presentation_2026.pdf' : 'Error: '+d.error, 5000);
-    }).catch(()=>setStatus('Server offline — use Ctrl+P to print as PDF', 4000));
+      body: JSON.stringify({html})
+    }).then(r=>{
+      if(!r.ok) return r.json().then(d=>{throw new Error(d.error||'server error');});
+      return r.blob();
+    }).then(blob=>{
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='mTechnic_Presentation_2026.pdf'; a.click();
+      URL.revokeObjectURL(url);
+      setStatus('✓ PDF downloaded', 5000);
+    }).catch(e=>setStatus('Error: '+e.message+' — use Ctrl+P as fallback', 5000));
   }
 
   // Page nav highlight

@@ -1,0 +1,28 @@
+# Railway build config — installs system Chromium so Puppeteer
+# doesn't need to bundle its own 300 MB Chrome download.
+
+[phases.setup]
+nixPkgs = [
+  "chromium",
+  "nss",
+  "atk",
+  "cups",
+  "pango",
+  "cairo",
+  "glib",
+  "gtk3",
+  "gdk-pixbuf",
+  "xorg.libX11",
+  "xorg.libXcomposite",
+  "xorg.libXdamage",
+  "xorg.libXext",
+  "xorg.libXfixes",
+  "xorg.libXrandr",
+  "xorg.libxcb",
+  "mesa",
+]
+
+[variables]
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
+PUPPETEER_EXECUTABLE_PATH        = "/run/current-system/sw/bin/chromium"
+NODE_ENV                         = "production"
