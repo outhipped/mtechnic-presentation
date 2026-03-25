@@ -55,14 +55,23 @@ app.post('/save', (req, res) => {
 app.post('/export-pdf', async (req, res) => {
   let browser;
   try {
-    const puppeteer = require('puppeteer');
+    const puppeteer = require('puppeteer-core');
     const html = req.body.html;
     if (!html) return res.status(400).json({ ok: false, error: 'No HTML provided' });
 
     console.log('⏳ Generating PDF…');
 
+    // puppeteer-core requires executablePath — set via env var
+    // Local: export PUPPETEER_EXECUTABLE_PATH=$(which chromium || which chromium-browser || which google-chrome)
+    // Railway/Docker: set in Dockerfile ENV
+    const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+    if (!executablePath) {
+      return res.status(500).json({ ok: false, error: 'PUPPETEER_EXECUTABLE_PATH env var not set. Run: export PUPPETEER_EXECUTABLE_PATH=$(which chromium)' });
+    }
+
     const launchOpts = {
       headless: 'new',
+      executablePath,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -70,11 +79,6 @@ app.post('/export-pdf', async (req, res) => {
         '--disable-gpu',
       ],
     };
-
-    // On Railway, use the system-installed Chromium (set via PUPPETEER_EXECUTABLE_PATH)
-    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-      launchOpts.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-    }
 
     browser = await puppeteer.launch(launchOpts);
     const page = await browser.newPage();
